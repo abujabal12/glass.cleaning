@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تنظيف الواجهات الزجاجية | قبل وبعد</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+body {
+background: #0a0a0a;
+color: #f0e6d2;
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+}
+.container {
+max-width: 800px;
+width: 100%;
+background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+border: 2px solid #c9a84c;
+border-radius: 15px;
+padding: 25px;
+box-shadow: 0 0 40px rgba(201, 168, 76, 0.3);
+}
+h1 {
+color: #c9a84c;
+text-align: center;
+font-size: 1.5rem;
+margin-bottom: 8px;
+}
+.subtitle {
+text-align: center;
+color: #ddd;
+font-size: 0.9rem;
+margin-bottom: 20px;
+}
+.ba-container {
+position: relative;
+width: 100%;
+aspect-ratio: 16/10;
+overflow: hidden;
+border: 2px solid #c9a84c;
+border-radius: 10px;
+cursor: ew-resize;
+user-select: none;
+touch-action: none;
+background: #000;
+}
+.ba-container img {
+position: absolute;
+top: 0; left: 0;
+width: 100%; height: 100%;
+object-fit: cover;
+pointer-events: none;
+display: block;
+}
+.ba-after-wrapper {
+position: absolute;
+top: 0; left: 0;
+width: 50%;
+height: 100%;
+overflow: hidden;
+}
+.ba-after {
+width: 200% !important;
+max-width: none !important;
+left: 0 !important;
+}
+.ba-slider {
+position: absolute;
+top: 0; left: 50%;
+width: 4px;
+height: 100%;
+background: #c9a84c;
+transform: translateX(-50%);
+pointer-events: none;
+box-shadow: 0 0 15px rgba(201, 168, 76, 0.8);
+}
+.ba-handle {
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+width: 45px; height: 45px;
+background: #c9a84c;
+color: #000;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 20px;
+font-weight: bold;
+box-shadow: 0 0 20px rgba(201, 168, 76, 1);
+}
+.label-before, .label-after {
+position: absolute;
+top: 12px;
+padding: 6px 14px;
+background: rgba(0,0,0,0.7);
+color: #c9a84c;
+border: 1px solid #c9a84c;
+border-radius: 20px;
+font-size: 0.85rem;
+font-weight: bold;
+z-index: 5;
+}
+.label-before { left: 12px; }
+.label-after { right: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>تنظيف الواجهات الزجاجية</h1>
+<p class="subtitle">اسحب الشريط الذهبي لمشاهدة الفرق</p>
+
+<div class="ba-container">
+<span class="label-before">قبل</span>
+<span class="label-after">بعد</span>
+
+<img src="glass-before.jpg" alt="قبل" class="ba-before">
+<div class="ba-after-wrapper">
+<img src="glass-after.jpg" alt="بعد" class="ba-after">
+</div>
+<div class="ba-slider">
+<div class="ba-handle">⇔</div>
+</div>
+</div>
+</div>
+
+<script>
+const container = document.querySelector('.ba-container');
+const afterWrapper = container.querySelector('.ba-after-wrapper');
+const slider = container.querySelector('.ba-slider');
+let isDragging = false;
+
+function move(x) {
+const rect = container.getBoundingClientRect();
+let pos = ((x - rect.left) / rect.width) * 100;
+pos = Math.max(0, Math.min(100, pos));
+afterWrapper.style.width = pos + '%';
+slider.style.left = pos + '%';
+}
+
+container.addEventListener('mousedown', e => { isDragging = true; move(e.clientX); });
+window.addEventListener('mousemove', e => { if (isDragging) move(e.clientX); });
+window.addEventListener('mouseup', () => isDragging = false);
+
+container.addEventListener('touchstart', e => { isDragging = true; move(e.touches[0].clientX); }, { passive: true });
+container.addEventListener('touchmove', e => { if (isDragging) { e.preventDefault(); move(e.touches[0].clientX); } }, { passive: false });
+container.addEventListener('touchend', () => isDragging = false);
+
+container.addEventListener('click', e => move(e.clientX));
+</script>
+</body>
+</html>
